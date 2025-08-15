@@ -39,8 +39,8 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
   }, []);
 
   const toggleMenu = (menu) => {
-    // Don't expand menus if sidebar is collapsed
-    if (isCollapsed) {
+    // Don't expand menus if sidebar is collapsed on desktop
+    if (!isMobile && isCollapsed) {
       toggleSidebar(); // Expand the sidebar first
       return;
     }
@@ -59,7 +59,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
     <aside 
       className={`fixed top-0 left-0 z-40 h-screen pt-16 transition-all duration-300 ease-in-out bg-white border-r border-gray-200 ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-      } ${isMobile ? 'w-72' : isCollapsed ? 'md:w-20' : 'md:w-64'}`}
+      } ${isMobile ? 'w-72' : ''} ${!isMobile && isCollapsed ? 'md:w-20' : 'md:w-64'}`}
     >
       <div className="h-full px-3 pb-4 overflow-y-auto">
         <div className="flex items-center justify-between py-2 px-1">

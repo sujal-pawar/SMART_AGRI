@@ -40,7 +40,7 @@ export const fetchFieldData = async (fieldId) => {
   return {
     id: fieldId,
     name: `Field ${fieldId}`,
-    size: 120, // acres
+    size: 20, // acres
     crops: ['Wheat', 'Corn'],
     soilType: 'Clay Loam',
     plantingDate: '2025-06-10',
