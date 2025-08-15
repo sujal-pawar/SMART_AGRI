@@ -12,7 +12,13 @@ const Layout = ({ children }) => {
   // Check screen size
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
+      
+      // Close sidebar when switching between mobile and desktop
+      if (isMobileView !== isMobile) {
+        setSidebarOpen(false);
+      }
       
       // Auto-collapse sidebar on small screens (but not mobile)
       if (window.innerWidth >= 768 && window.innerWidth < 1024) {
@@ -25,7 +31,21 @@ const Layout = ({ children }) => {
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
+  }, [isMobile]);
+  
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobile && sidebarOpen && 
+          !event.target.closest('aside') && 
+          !event.target.closest('button[aria-controls="sidebar"]')) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobile, sidebarOpen]);
   
   // Toggle sidebar visibility on mobile or desktop
   const toggleSidebar = () => {
@@ -37,7 +57,7 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50 overflow-hidden">
       <Navbar />
       
       {/* Mobile Menu Button */}

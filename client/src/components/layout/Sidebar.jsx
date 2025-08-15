@@ -57,9 +57,11 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
 
   return (
     <aside 
+      id="sidebar"
       className={`fixed top-0 left-0 z-40 h-screen pt-16 transition-all duration-300 ease-in-out bg-white border-r border-gray-200 ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       } ${isMobile ? 'w-72' : ''} ${!isMobile && isCollapsed ? 'md:w-20' : 'md:w-64'}`}
+      aria-label="Sidebar"
     >
       <div className="h-full px-3 pb-4 overflow-y-auto">
         <div className="flex items-center justify-between py-2 px-1">
@@ -81,6 +83,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
             onClick={toggleSidebar} 
             type="button" 
             className="hidden md:inline-flex items-center justify-center p-1 rounded-lg text-gray-500 hover:bg-gray-100"
+            aria-expanded={!isCollapsed}
           >
             <FontAwesomeIcon icon={isCollapsed ? faChevronRight : faChevronLeft} className="w-5 h-5" />
             <span className="sr-only">Toggle sidebar</span>
