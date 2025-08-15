@@ -38,6 +38,12 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
   }, []);
 
   const toggleMenu = (menu) => {
+    // Don't expand menus if sidebar is collapsed
+    if (isCollapsed) {
+      toggleSidebar(); // Expand the sidebar first
+      return;
+    }
+    
     setExpandedMenus(prev => ({
       ...prev,
       [menu]: !prev[menu]
@@ -87,7 +93,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
           <li>
             <Link
               to="/"
-              className={`flex items-center p-2 rounded-lg ${
+              className={`flex items-center p-2 rounded-lg ${isCollapsed ? 'justify-center' : ''} ${
                 isActive('/') 
                   ? 'bg-green-100 text-green-800' 
                   : 'text-gray-900 hover:bg-gray-100'
@@ -102,7 +108,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center w-full p-2 text-base transition duration-75 rounded-lg group ${
+              className={`flex items-center w-full p-2 text-base transition duration-75 rounded-lg group ${isCollapsed ? 'justify-center' : ''} ${
                 expandedMenus.analytics ? 'bg-gray-100' : 'hover:bg-gray-100'
               } text-gray-900`}
               onClick={() => toggleMenu('analytics')}
@@ -116,7 +122,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
               )}
             </button>
             
-            {expandedMenus.analytics && (
+            {expandedMenus.analytics && !isCollapsed && (
               <ul className="py-2 space-y-1">
                 <li>
                   <Link
@@ -164,7 +170,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
           <li>
             <Link
               to="/farm-console"
-              className={`flex items-center p-2 rounded-lg ${
+              className={`flex items-center p-2 rounded-lg ${isCollapsed ? 'justify-center' : ''} ${
                 isActive('/farm-console') 
                   ? 'bg-green-100 text-green-800' 
                   : 'text-gray-900 hover:bg-gray-100'
@@ -178,7 +184,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
           <li>
             <Link
               to="/reports"
-              className={`flex items-center p-2 rounded-lg ${
+              className={`flex items-center p-2 rounded-lg ${isCollapsed ? 'justify-center' : ''} ${
                 isActive('/reports') 
                   ? 'bg-green-100 text-green-800' 
                   : 'text-gray-900 hover:bg-gray-100'
@@ -193,7 +199,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
           <li>
             <button
               type="button"
-              className={`flex items-center w-full p-2 text-base transition duration-75 rounded-lg group ${
+              className={`flex items-center w-full p-2 text-base transition duration-75 rounded-lg group ${isCollapsed ? 'justify-center' : ''} ${
                 expandedMenus.settings ? 'bg-gray-100' : 'hover:bg-gray-100'
               } text-gray-900`}
               onClick={() => toggleMenu('settings')}
@@ -207,7 +213,7 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
               )}
             </button>
             
-            {expandedMenus.settings && (
+            {expandedMenus.settings && !isCollapsed && (
               <ul className="py-2 space-y-1">
                 <li>
                   <Link
@@ -242,10 +248,10 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
         <div className="pt-4 mt-6 space-y-2 border-t border-gray-200">
           <Link
             to="/logout"
-            className="flex items-center p-2 rounded-lg text-gray-900 hover:bg-red-50 hover:text-red-700 group transition-colors"
+            className={`flex items-center p-2 rounded-lg ${isCollapsed ? 'justify-center' : ''} text-gray-900 hover:bg-red-50 hover:text-red-700 group transition-colors`}
           >
             <FontAwesomeIcon icon={faArrowRightFromBracket} className="w-5 h-5 text-gray-500 transition group-hover:text-red-700" />
-            <span className="ml-3">Logout</span>
+            {!isCollapsed && <span className="ml-3">Logout</span>}
           </Link>
         </div>
       </div>

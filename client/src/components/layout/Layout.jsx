@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         type="button"
-        className="md:hidden fixed bottom-4 right-4 z-50 inline-flex items-center p-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 w-12 h-12 justify-center"
+        className="md:hidden fixed bottom-4 right-4 z-50 inline-flex items-center p-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 w-12 h-12 justify-center shadow-lg"
       >
         <span className="sr-only">Toggle sidebar</span>
         <FontAwesomeIcon icon={sidebarOpen ? faXmark : faBars} className="text-xl" />
