@@ -35,7 +35,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="bg-white shadow-md h-screen w-64 fixed left-0 top-0 pt-16 overflow-y-auto">
+    <div className="bg-white min-h-full shadow-md h-screen w-64 fixed left-0 top-0 pt-16 overflow-y-auto">
       <div className="py-4">
         {/* User Info */}
         <div className="px-4 py-3 mb-2 border-b">
