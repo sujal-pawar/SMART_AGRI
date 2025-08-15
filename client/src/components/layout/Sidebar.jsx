@@ -15,7 +15,8 @@ import {
   faUser,
   faUserGear,
   faChevronLeft,
-  faChevronRight
+  faChevronRight,
+  faRobot
 } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
@@ -192,6 +193,21 @@ const Sidebar = ({ isSidebarOpen, isCollapsed, toggleSidebar }) => {
             >
               <FontAwesomeIcon icon={faDatabase} className={`w-5 h-5 text-gray-500 transition ${isActive('/reports') ? 'text-green-700' : 'group-hover:text-gray-900'}`} />
               {!isCollapsed && <span className="flex-1 ml-3 whitespace-nowrap">Reports</span>}
+            </Link>
+          </li>
+          
+          {/* AI Assistant */}
+          <li>
+            <Link
+              to="/ai-assistant"
+              className={`flex items-center p-2 rounded-lg ${isCollapsed ? 'justify-center' : ''} ${
+                isActive('/ai-assistant') 
+                  ? 'bg-green-100 text-green-800' 
+                  : 'text-gray-900 hover:bg-gray-100'
+              } group`}
+            >
+              <FontAwesomeIcon icon={faRobot} className={`w-5 h-5 text-gray-500 transition ${isActive('/ai-assistant') ? 'text-green-700' : 'group-hover:text-gray-900'}`} />
+              {!isCollapsed && <span className="flex-1 ml-3 whitespace-nowrap">AI Assistant</span>}
             </Link>
           </li>
           
