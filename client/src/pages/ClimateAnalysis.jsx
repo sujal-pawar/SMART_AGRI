@@ -268,7 +268,7 @@ const ClimateAnalysis = () => {
     switch(activeTab) {
       case 'weather':
         return (
-          <div className="Analytic">
+          <div className="Analytic ">
             <div className="mb-6">
               <h2 className="text-2xl font-bold flex items-center">
                 <FontAwesomeIcon icon={faCloudSunRain} className="text-yellow-500 mr-2" />
@@ -702,7 +702,7 @@ const ClimateAnalysis = () => {
   
   return (
     <div>
-      <div className="mb-6">
+      <div className="mb-6 max-w-screen">
         <h1 className="text-2xl font-bold mb-2 flex items-center">
           <FontAwesomeIcon icon={faChartLine} className="text-gray-700 mr-2" />
           Climate Analysis

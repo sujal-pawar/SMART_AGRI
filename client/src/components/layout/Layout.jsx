@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,44 +6,70 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
+  // Check screen size
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      
+      // Auto-collapse sidebar on small screens (but not mobile)
+      if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        setIsCollapsed(true);
+      } else if (window.innerWidth >= 1024) {
+        setIsCollapsed(false);
+      }
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  // Toggle sidebar visibility on mobile
   const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+    if (isMobile) {
+      setSidebarOpen(!sidebarOpen);
+    } else {
+      setIsCollapsed(!isCollapsed);
+    }
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Mobile Sidebar Toggle Button */}
+      <Navbar />
+      
+      {/* Mobile Menu Button */}
       <button
-        onClick={toggleSidebar}
-        className="md:hidden fixed bottom-4 right-4 z-50 bg-green-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        type="button"
+        className="md:hidden fixed bottom-4 right-4 z-50 inline-flex items-center p-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 w-12 h-12 justify-center"
       >
+        <span className="sr-only">Toggle sidebar</span>
         <FontAwesomeIcon icon={sidebarOpen ? faXmark : faBars} className="text-xl" />
       </button>
       
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
+      {/* Dark Overlay - visible when mobile sidebar is open */}
+      {sidebarOpen && isMobile && (
         <div 
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => setSidebarOpen(false)} 
+          className="fixed inset-0 z-30 bg-gray-900 bg-opacity-50 transition-opacity md:hidden"
         ></div>
       )}
       
-      <div className="flex flex-1">
-        {/* Sidebar - hidden on mobile unless toggled */}
-        <div className={`md:relative fixed inset-y-0 left-0 z-40 transition-transform transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
-          <Sidebar />
-        </div>
-        
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col">
-          <Navbar />
-          <main className="flex-1 p-4 md:p-6 md:ml-64 md:mt-0 mt-16">
-            <div className="container mx-auto">
-              {children}
-            </div>
-          </main>
-        </div>
+      {/* Sidebar */}
+      <Sidebar isSidebarOpen={sidebarOpen} isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+      
+      {/* Main Content */}
+      <div className={`flex-1 transition-all duration-300 ${
+        isCollapsed ? 'md:ml-20' : 'md:ml-64'
+      } mt-16`}>
+        <main className="p-4 md:p-6">
+          <div className="mx-auto">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );
